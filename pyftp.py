@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+#メソッドにしたとき引数に時間、日付などをもってくることでpathdでのファイル指定などうまくいくはず、あと、このメソッドをコールした時もとファイルを消すはずなので消すようプログラムする必要あり。
+#file名をどうするかはみんなと話し合い
 import pysftp
 
 HOST = '172.21.42.151' #ホスト名（グローバルIPでもOK）
@@ -17,7 +19,7 @@ sftp.chdir(uploadPath) #接続先の作業ディレクトリを変更
 sftp.getcwd() #現在の作業ディレクトリを返す
 sftp.put(fPath) #転送するファイルを指定
 
-for item in sftp.execute('ls -l /home/iwalab'):     #接続先でlsコマンドを実行（必要ではないです）
+for item in sftp.execute('ls -l /home/iwalab'): #接続先でlsコマンドを実行（必要ではないです）
   print item,     #結果を表示
 
 sftp.close()
