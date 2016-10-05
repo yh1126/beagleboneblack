@@ -1,31 +1,20 @@
-#!/usr/local/bin/python
-# -*- coding: utf-8 -*-
-###/usr/bin/python
-# motion.py
-
-import Rpi.GPIO as GPIO
 import time
-import event
+import Adafruit_BBIO.GPIO as GPIO
 
-class Motion(object):
+INTAVAL = 3
+SLEEPTIME = 1
+SENSOR_PIN = "P8_19"
 
-  def __init__(self):
-    self.INTAVAL = 3
-    self.SLEEPTIME = 2
-    self.SENSOR_PIN = 18
-    self.evt = event.Event()
+GPIO.cleanup()
+#GPIO.setmode(GPIO.BCM)
+GPIO.setup(SENSOR_PIN, GPIO.IN)
 
-  def execute(self, earg):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(self.SENSOR_PIN, GPIO.IN)
-    self.st = time.time() - self.INTAVAL
-    while True:
-      print("待機中")
-      if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
-        print ("人を感知しました")
-        self.st = time.time()
-        self.evt()
-      time.sleep(self.SLEEPTIME)
+st = time.time()-INTAVAL
 
-    GPIO.cleanup()
+while True:
+        print GPIO.input(SENSOR_PIN)
+	#       if (GPIO.input(SENSOR_PIN)  and (st + INTAVAL < time.time())):
+	#               st = time.time()
+	#               print ("sensored")
 
+	        time.sleep(SLEEPTIME)
