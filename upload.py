@@ -14,7 +14,11 @@ class Upload(object):
     self.PRIVATE_KEY_FILE = '/home/pi/.ssh/id_rsa'
     self.uploadPath = '/home/iwatalab/upload_image'
 
-  def execute(self, earg):
+  def execute(self, sender, earg):
+    print("upload_self", self)
+    print("upload_sender",sender)
+    print("upload_earg",earg)
+    self.todaydetail = earg
     self.uploadPath = '/home/iwatalab/upload_image'
     self.fPath = '/home/pi/surcamera/' + self.todaydetail + '.jpg'
     sftp = pysftp.Connection(self.HOST, username=self.USER, port=self.PORT, private_key=self.PRIVATE_KEY_FILE)

@@ -25,10 +25,7 @@ class Manager:
 
 if __name__ == '__main__':
   man  = Manager()
-  man.motion.evt
-  man.evt += man.motion.execute()
-  man.motion.evt += man.shoot.execute()
-  man.motion.evt += man.upload.execute()
+  man.evt += man.motion.execute
+  man.motion.evt += man.shoot.execute
+  man.motion.evt += man.upload.execute
   man.execute()
-
-

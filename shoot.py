@@ -10,10 +10,14 @@ import datetime
 class Shoot(object):
 
   def __init__(self):
-   selft.todaydetail = datetime.datetime.today() 
+   self.todaydetail = datetime.datetime.today() 
 
-  def execute(self, earg):
-    self.todaydetail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+  def execute(self, sender, earg):
+    print("shoot_self", self)
+    print("shoot_sender",sender)
+    print("shoot_earg",earg)
+#    self.todaydetail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+    self.todaydetail = earg
     print self.todaydetail
     os.system('raspistill -o ' + self.todaydetail + '.jpg -vf -hf -w 1024 -h 768 -t 1000 -ex antishake')
     time.sleep(2)

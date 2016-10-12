@@ -3,9 +3,10 @@
 ###/usr/bin/python
 # motion.py
 
-import Rpi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import event
+import datetime
 
 class Motion(object):
 
@@ -15,16 +16,20 @@ class Motion(object):
     self.SENSOR_PIN = 18
     self.evt = event.Event()
 
-  def execute(self, earg):
+  def execute(self, sender, earg):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.SENSOR_PIN, GPIO.IN)
     self.st = time.time() - self.INTAVAL
     while True:
       print("待機中")
+      print("motion_self", self)
+      print("motion_sender",sender)
+      print("motion_earg",earg)
       if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
         print ("人を感知しました")
         self.st = time.time()
-        self.evt()
+        self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+        self.evt(self, earg)
       time.sleep(self.SLEEPTIME)
 
     GPIO.cleanup()
