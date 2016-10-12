@@ -29,7 +29,7 @@ class Motion(object):
         print ("人を感知しました")
         self.st = time.time()
         self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
-        self.evt(self, earg)
+        self.evt(self, self.earg)
       time.sleep(self.SLEEPTIME)
 
     GPIO.cleanup()
