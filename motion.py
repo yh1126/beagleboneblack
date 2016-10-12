@@ -10,12 +10,6 @@ import datetime
 
 class Motion(object):
 
-  def __init__(self):
-    self.INTAVAL = 3
-    self.SLEEPTIME = 2
-    self.SENSOR_PIN = 18
-    self.evt = event.Event()
-
   def execute(self, sender, earg):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.SENSOR_PIN, GPIO.IN)
@@ -32,5 +26,4 @@ class Motion(object):
         self.evt(self, self.earg)
       time.sleep(self.SLEEPTIME)
 
-    GPIO.cleanup()
-
+  GPIO.cleanup()

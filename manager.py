@@ -7,7 +7,7 @@ import time
 import RPi.GPIO as GPIO
 import os
 import datetime
-import event #created
+import event
 import motion
 import shoot
 import upload
@@ -15,10 +15,10 @@ import upload
 class Manager:
 
   def __init__(self):
-    self.evt    = event.Event()
-    self.motion = motion.Motion() #special class
-    self.shoot  = shoot.Shoot() #nomal class
-    self.upload = upload.Upload() #nomal class
+     self.evt    = event.Event()
+     self.motion = motion.Motion() #special class
+     self.shoot  = shoot.Shoot() #nomal class
+     self.upload = upload.Upload() #nomal class
 
   def execute(self):
     self.evt(self)
