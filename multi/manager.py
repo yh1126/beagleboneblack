@@ -23,9 +23,22 @@ class Manager:
   def execute(self):
     self.evt(self)
 
+  def main(self)
+    self.ps = [
+      Process(target=self.execute),
+#      Process(target=self.extcute),
+#      Process(target=self.extcute),
+#      Process(target=self.extcute)
+    ]
+    for p in self.ps:
+      p.start()
+      p.join()#joinがなんなのかよくわかってない
+
+
 if __name__ == '__main__':
   man  = Manager()
   man.evt += man.motion.execute
   man.motion.evt += man.shoot.execute
   man.motion.evt += man.upload.execute
-  man.execute()
+#  man.execute()
+  man.main()

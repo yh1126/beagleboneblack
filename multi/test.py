@@ -22,6 +22,7 @@ class Test:
     ]
     for p in self.ps:
       p.start()
+      p.join()
     
 t = Test()
 t.main()
