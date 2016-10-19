@@ -39,7 +39,7 @@ class Manager:
     ]
     for p in self.ps:
       p.start()
-      p.join()
+      #p.join()
     
 
 if __name__ == '__main__':
