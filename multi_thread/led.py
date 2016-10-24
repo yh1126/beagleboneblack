@@ -6,8 +6,12 @@ class Led(object):
     self.PIN = 21
 
   def execute(self, sender, earg):
+  #def execute(self):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.PIN, GPIO.OUT)
     GPIO.output(self.PIN, GPIO.HIGH)
-    time.sleep(10)
+    time.sleep(5)
     GPIO.cleanup()
+
+#l = Led()
+#l.execute()

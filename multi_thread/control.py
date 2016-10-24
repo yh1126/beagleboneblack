@@ -14,7 +14,7 @@ class MyThread(threading.Thread):
     global global_counter
     global global_lock
 
-    #local
+    #lock
     global_lock.acquire()
 
     #read
