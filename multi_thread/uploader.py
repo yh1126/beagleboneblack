@@ -5,7 +5,7 @@
 
 import pysftp
 
-class Upload(object):
+class Uploader(object):
 
   def __init__(self):
     self.HOST = '172.21.42.152'

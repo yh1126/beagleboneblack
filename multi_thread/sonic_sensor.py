@@ -12,7 +12,7 @@ class SonicSensor(object):
     self.distance = 0
     print self.ECHO
   
-  def measur(self):
+  def measure(self, sender, earg):
     GPIO.setmode(GPIO.BCM) #GPIO.BCM: GPIO number , GPIO.BOARD:PIN number 
     print "Distance Measurement in Progress"
     GPIO.setup(self.ECHO, GPIO.IN)
