@@ -35,5 +35,7 @@ class SonicSensor(object):
     
     GPIO.cleanup()
 
-#t = SonicSensor()
-#t.measur()
+t = SonicSensor()
+while True:
+  t.measur()
+  time.sleep(0.3)

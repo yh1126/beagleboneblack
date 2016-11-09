@@ -2,7 +2,8 @@ import threading
 import time
 
 global_counter = 5
-global_lock = threading.Lock() # local object
+global_lock = threading.Lock() # lock object
+global_rlock = threading.RLock() # lock object
 
 class MyThread(threading.Thread):
   def __init__(self, name, sleep_time):
@@ -13,9 +14,12 @@ class MyThread(threading.Thread):
   def run(self):
     global global_counter
     global global_lock
+    global global_rlock
 
     #lock
-    global_lock.acquire()
+    #global_lock.acquire()
+    global_rlock.acquire()
+    global_rlock.acquire()
 
     #read
     count = global_counter
@@ -30,7 +34,8 @@ class MyThread(threading.Thread):
     print(self.name + ': write global_value ' + str(global_counter))
 
     #release
-    global_lock.release()
+    #global_lock.release()
+    global_rlock.release()
 
 thread1 = MyThread('A', 5)
 thread2 = MyThread('B', 3)

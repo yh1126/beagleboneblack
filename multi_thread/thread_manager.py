@@ -15,6 +15,9 @@ import led
 import threading
 import sonic_sensor
 
+global_variable = 0 
+global_lock = threading.Lock() # Lock object
+
 class Manager:
 
   def __init__(self):
