@@ -21,16 +21,20 @@ class Motion(object):
     GPIO.setup(self.SENSOR_PIN, GPIO.IN)
     self.st = time.time() - self.INTAVAL
     while True:
-      print("待機中")
-      print("motion_self", self)
-      print("motion_sender",sender)
-      print("motion_earg",earg)
-      if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
-        print ("人を感知しました")
-        self.st = time.time()
-        self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
-        self.evt(self, self.earg)
-      time.sleep(self.SLEEPTIME)
+      try:
+        print("待機中")
+        print("motion_self", self)
+        print("motion_sender",sender)
+        print("motion_earg",earg)
+        if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
+          print ("人を感知しました")
+          self.st = time.time()
+          self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+          self.evt(self, self.earg)
+        time.sleep(self.SLEEPTIME)
+      except:
+        print("break motion")
+        break
 
     GPIO.cleanup()
 

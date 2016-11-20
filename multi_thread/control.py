@@ -18,8 +18,7 @@ class MyThread(threading.Thread):
 
     #lock
     #global_lock.acquire()
-    global_rlock.acquire()
-    global_rlock.acquire()
+    print(global_rlock.acquire(1))
 
     #read
     count = global_counter
