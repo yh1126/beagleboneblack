@@ -5,7 +5,7 @@
 
 import pysftp
 
-class Uploader(object):
+class Upload(object):
 
   def __init__(self):
     self.HOST = '172.21.42.152'
@@ -20,7 +20,7 @@ class Uploader(object):
     print("upload_earg",earg)
     self.todaydetail = earg
     self.uploadPath = '/home/iwatalab/upload_image'
-    self.fPath = '/home/pi/surcamera/' + self.todaydetail + '.jpg'
+    self.fPath = '/home/pi/iot_iwataken/motion_system/beagleboneblack' + self.todaydetail + '.jpg'
     sftp = pysftp.Connection(self.HOST, username=self.USER, port=self.PORT, private_key=self.PRIVATE_KEY_FILE)
     sftp.listdir()
     sftp.chdir(self.uploadPath)

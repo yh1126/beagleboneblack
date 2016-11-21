@@ -11,6 +11,9 @@ import event
 import motion
 import shoot
 import uploader
+import threading
+
+rlock = threading.RLock() # lock object
 
 class Manager:
 

@@ -27,15 +27,15 @@ class Manager:
     self.uploader = uploader.Uploader() #actuator class
     self.led    = led.Led()
     self.sonic  = sonic_sensor.SonicSensor()
-    self.motion.evt += self.shoot.execute()
-    self.motion.evt += self.upload.execute()
-    self.sonic.evt += self.shoot.execute()
-    self.sonic.evt += self.upload.execute()
+    self.motion.evt += self.shoot.execute
+    self.motion.evt += self.uploader.execute
+    self.sonic.evt += self.shoot.execute
+    self.sonic.evt += self.uploader.execute
 
   def motion_method(self, earg=None):
     print "=== start motion_thread ===="
     print "[%s] thread (method) : " % threading.currentThread().getName() + str(datetime.datetime.today())
-    self.motion(self, earg)
+    self.motion.execute(self, earg)
     print "=== end motion_thread (method) ==="
 
   def sonic_method(self, earg=None):
@@ -63,6 +63,7 @@ class Manager:
     motion_thread.join()
     sonic_thread.join()
     print("finished prgram")
+    GPIO.cleanup
 
 if __name__ == '__main__':
   man  = Manager()

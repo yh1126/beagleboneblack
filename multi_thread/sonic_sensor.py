@@ -5,15 +5,15 @@ import event
 class SonicSensor(object):
 
   def __init__(self):
+    self.evt = event.Event()
     self.TRIG = 21
     self.ECHO = 20
     self.pulse_start = 0
     self.pulse_end = 0
     self.pulse_duration = 0
     self.distance = 0
-    self.evt = self.Event()
   
-  def measure(self, sender, earg):
+  def measure(self, sender, earg=None):
     while True:
       try:
         GPIO.setmode(GPIO.BCM) #GPIO.BCM: GPIO number , GPIO.BOARD:PIN number 
@@ -37,13 +37,18 @@ class SonicSensor(object):
         print "Distance: ", self.distance , "cm"
         if(self.distance < 20):
           print("call capture method")
-          self.evt()
+         # self.evt()
         else:
           print("not call capture method")
-        time.sleep(0.3)
+        time.sleep(0.5)
+        time.sleep(0.5)
 
       except:
         print("break sensor")
         break
   
     GPIO.cleanup()
+
+
+#t = SonicSensor()
+#t.measure('aaa')

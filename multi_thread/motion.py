@@ -32,7 +32,7 @@ class Motion(object):
           self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
           self.evt(self, self.earg)
         time.sleep(self.SLEEPTIME)
-      except:
+      except KeyboardInterrupt:
         print("break motion")
         break
 
