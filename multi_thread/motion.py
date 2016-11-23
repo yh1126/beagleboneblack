@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 ###/usr/bin/python
 # motion.py
-
+import threading
 import RPi.GPIO as GPIO
 import time
 import event
@@ -22,19 +22,16 @@ class Motion(object):
     self.st = time.time() - self.INTAVAL
     while True:
       try:
-        print("待機中")
-        print("motion_self", self)
-        print("motion_sender",sender)
-        print("motion_earg",earg)
+        print("-----待機中-----")
         if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
-          print ("人を感知しました")
+          print ("#####人を感知しました#####")
           self.st = time.time()
-          self.earg = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
-          self.evt(self, self.earg)
+          self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + "_" + threading.currentThread().getName()
+          #self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+          self.evt(self, self.image_detail)
         time.sleep(self.SLEEPTIME)
       except KeyboardInterrupt:
         print("break motion")
         break
 
     GPIO.cleanup()
-

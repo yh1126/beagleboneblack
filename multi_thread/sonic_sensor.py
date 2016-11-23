@@ -1,6 +1,8 @@
+import threading
 import RPi.GPIO as GPIO
 import time
 import event
+import datetime
 
 class SonicSensor(object):
 
@@ -17,7 +19,7 @@ class SonicSensor(object):
     while True:
       try:
         GPIO.setmode(GPIO.BCM) #GPIO.BCM: GPIO number , GPIO.BOARD:PIN number 
-        print "Distance Measurement in Progress"
+        print("Distance Measurement in Progress")
         GPIO.setup(self.ECHO, GPIO.IN)
         GPIO.setup(self.TRIG, GPIO.OUT)
         GPIO.output(self.TRIG, GPIO.HIGH)
@@ -34,10 +36,13 @@ class SonicSensor(object):
         
         self.distance = self.pulse_duration * 17150
         self.distance = round(self.distance, 2)
-        print "Distance: ", self.distance , "cm"
+        print("------SonicSensor-----")
+        print("Distance: ", self.distance , "cm")
         if(self.distance < 20):
-          print("call capture method")
-         # self.evt()
+          print("@@@@call capture method@@@@")
+          self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + "_" + threading.currentThread().getName()
+          #self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
+          self.evt(self, self.image_detail)
         else:
           print("not call capture method")
         time.sleep(0.5)

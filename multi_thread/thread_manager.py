@@ -15,11 +15,10 @@ import led
 import threading
 import sonic_sensor
 
-global_variable = 0 
-rlock = threading.RLock() # lock object
+#capture_lock = threading.RLock() # lock object
+#up_lock = threading.RLock() # lock object
 
 class Manager:
-
   def __init__(self):
     self.evt    = event.Event()
     self.motion = motion.Motion() #sencor class
@@ -53,17 +52,22 @@ class Manager:
     print "=== end [%s] test_thread (method) ===" % threading.currentThread().getName()
 
   def main(self):
-    sonic_thread  = threading.Thread(target=self.sonic_method, name="sonic_sensor_thread", args=(5, ))
-    motion_thread =  threading.Thread(target=self.motion_method, name="motion_sensor_thread", args=(5, ))
+    try: 
+      sonic_thread  = threading.Thread(target=self.sonic_method, name="sonic_sensor_thread", args=(5, ))
+      motion_thread =  threading.Thread(target=self.motion_method, name="motion_sensor_thread", args=(5, ))
 
-    motion_thread.start()
-    time.sleep(0.001)
-    sonic_thread.start()
+      motion_thread.start()
+      time.sleep(0.001)
+      sonic_thread.start()
 
-    motion_thread.join()
-    sonic_thread.join()
-    print("finished prgram")
-    GPIO.cleanup
+      motion_thread.join()
+      sonic_thread.join()
+      print("finished prgram")
+      GPIO.cleanup
+
+    except:
+      print("error:finished prgram")
+      GPIO.cleanup
 
 if __name__ == '__main__':
   man  = Manager()
