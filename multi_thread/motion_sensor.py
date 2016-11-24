@@ -8,24 +8,24 @@ import time
 import event
 import datetime
 
-class Motion(object):
+class MotionSensor(object):
 
   def __init__(self):
     self.INTAVAL = 3
     self.SLEEPTIME = 2
     self.SENSOR_PIN = 18
-    self.evt = event.Event()
+    self.event_handlers = event.Event()
 
   def execute(self, sender, earg):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.SENSOR_PIN, GPIO.IN)
-    self.st = time.time() - self.INTAVAL
+    self.term = time.time() - self.INTAVAL
     while True:
       try:
         print("-----待機中-----")
-        if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.st + self.INTAVAL < time.time()):
+        if(GPIO.input(self.SENSOR_PIN)==GPIO.HIGH) and (self.term + self.INTAVAL < time.time()):
           print ("#####人を感知しました#####")
-          self.st = time.time()
+          self.term = time.time()
           self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + "_" + threading.currentThread().getName()
           #self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
           self.evt(self, self.image_detail)

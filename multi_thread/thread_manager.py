@@ -8,8 +8,9 @@ import RPi.GPIO as GPIO
 import os
 import datetime
 import event
-import motion
-import shoot
+import motion_sensor
+import sonic_sensor
+import camera
 import uploader
 import led
 import threading
@@ -21,14 +22,14 @@ import sonic_sensor
 class Manager:
   def __init__(self):
     self.evt    = event.Event()
-    self.motion = motion.Motion() #sencor class
-    self.shoot  = shoot.Shoot() #actuator class
+    self.camera  = camera.Camera() #actuator class
     self.uploader = uploader.Uploader() #actuator class
     self.led    = led.Led()
-    self.sonic  = sonic_sensor.SonicSensor()
-    self.motion.evt += self.shoot.execute
+    self.motion = motion_sensor.Motion() #sencor class
+    self.sonic  = sonic_sensor.SonicSensor() #sensor class
+    self.motion.evt += self.camera.execute
     self.motion.evt += self.uploader.execute
-    self.sonic.evt += self.shoot.execute
+    self.sonic.evt += self.camera.execute
     self.sonic.evt += self.uploader.execute
 
   def motion_method(self, earg=None):

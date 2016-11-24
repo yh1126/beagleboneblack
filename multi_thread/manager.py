@@ -9,7 +9,7 @@ import os
 import datetime
 import event
 import motion
-import shoot
+import camera
 import uploader
 import threading
 import sonic_sensor
@@ -22,11 +22,11 @@ class Manager:
      self.evt         = event.Event()
      self.motion      = motion.Motion() #actuator class
      self.sonic       = sonic_sensor.SonicSensor()
-     self.shoot       = shoot.Shoot() #sencer class
+     self.camera       = camera.Camera() #sencer class
      self.uploader    = uploader.Uploader() #sencer class
-     self.motion.evt += self.shoot.execute
+     self.motion.evt += self.camera.execute
      self.motion.evt += self.uploader.execute
-     self.sonic.evt  += self.shoot.execute
+     self.sonic.evt  += self.camera.execute
      self.sonic.evt  += self.uploader.execute 
 
   def execute(self):

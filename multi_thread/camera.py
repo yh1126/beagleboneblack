@@ -9,7 +9,7 @@ import datetime
 
 capture_lock = threading.RLock() # lock object
 
-class Shoot(object):
+class Camera(object):
 
   def __init__(self):
    self.todaydetail = datetime.datetime.today() 
