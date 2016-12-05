@@ -25,17 +25,17 @@ class Manager:
     self.camera  = camera.Camera() #actuator class
     self.uploader = uploader.Uploader() #actuator class
     self.led    = led.Led()
-    self.motion = motion_sensor.Motion() #sencor class
+    self.motion = motion_sensor.MotionSensor() #sencor class
     self.sonic  = sonic_sensor.SonicSensor() #sensor class
-    self.motion.evt += self.camera.execute
-    self.motion.evt += self.uploader.execute
-    self.sonic.evt += self.camera.execute
+    self.motion.event_handlers += self.camera.shutter
+    self.motion.event_handlers += self.uploader.execute
+    self.sonic.evt += self.camera.shutter
     self.sonic.evt += self.uploader.execute
 
   def motion_method(self, earg=None):
     print "=== start motion_thread ===="
     print "[%s] thread (method) : " % threading.currentThread().getName() + str(datetime.datetime.today())
-    self.motion.execute(self, earg)
+    self.motion.detect(self, earg)
     print "=== end motion_thread (method) ==="
 
   def sonic_method(self, earg=None):

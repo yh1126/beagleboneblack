@@ -15,7 +15,7 @@ class Camera(object):
    self.todaydetail = datetime.datetime.today() 
    global capture_lock
 
-  def execute(self, sender, earg):
+  def shutter(self, sender, earg):
 #    try:
     with capture_lock:
       print("-- Capture Lock by " + threading.currentThread().getName() + " --")

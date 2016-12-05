@@ -16,7 +16,7 @@ class MotionSensor(object):
     self.SENSOR_PIN = 18
     self.event_handlers = event.Event()
 
-  def execute(self, sender, earg):
+  def detect(self, sender, earg):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.SENSOR_PIN, GPIO.IN)
     self.term = time.time() - self.INTAVAL
@@ -28,7 +28,7 @@ class MotionSensor(object):
           self.term = time.time()
           self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + "_" + threading.currentThread().getName()
           #self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
-          self.evt(self, self.image_detail)
+          self.event_handlers(self, self.image_detail)
         time.sleep(self.SLEEPTIME)
       except KeyboardInterrupt:
         print("break motion")
