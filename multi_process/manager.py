@@ -10,7 +10,7 @@ import datetime
 import event
 import motion
 import shoot
-import uploader
+import upload
 
 class Manager:
 
@@ -18,13 +18,14 @@ class Manager:
      self.evt    = event.Event()
      self.motion = motion.Motion() #actuator class
      self.shoot  = shoot.Shoot() #sencer class
-     self.uploader = uploader.Uploader() #sencer class
-     self.motion.evt += self.shoot.execute
-     self.motion.evt += self.uploader.execute
+     self.upload = upload.Upload() #sencer class
 
   def execute(self):
-    self.motion.execute(self, None)
+    self.evt(self)
 
 if __name__ == '__main__':
   man  = Manager()
+  man.evt += man.motion.execute
+  man.motion.evt += man.shoot.execute
+  man.motion.evt += man.upload.execute
   man.execute()
