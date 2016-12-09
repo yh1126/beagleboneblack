@@ -4,7 +4,7 @@
 
 import pysftp
 import time
-import Rpig.GPIO as GPIO
+import RPi.GPIO as GPIO
 import os
 import datetime
 
