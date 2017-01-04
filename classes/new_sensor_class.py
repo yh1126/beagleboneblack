@@ -21,9 +21,13 @@ class Sensor(object):
 # 上記のようにした場合センサーが無線でつながっているとき、get_sensor_value()を実行するたびに無線でつながっているセンサーに命令が行くとする。そうした場合、長期的に動かした場合命令のたびに通信を行うので無駄なのでは？だから、どの周期で動かすかはセンサーで定義したほうがいいきがしてきた！
 
   def get_sensor_value():
-# data取得方法
-  return
- 
+      self.value = 0
+      # センサごとのdata取得方法を記述
+      return value
+
+  def exception_method():
+      # 例外処理を記述
+
   def set_in():
 # 入力用のpin番号をセットするためのメソッド
 # in_pinがnullの場合、動かないようにする。
@@ -37,4 +41,4 @@ class Sensor(object):
 # と、おもったけどforで回しても周期あるわ〜
 
   def exception_method():
-# 例外処理: 割り込みで終わるのかgpioなどのエラーで終わるのか
+      # 例外処理を記述

@@ -71,6 +71,7 @@ inoremap () ()<LEFT>
 inoremap "" ""<LEFT>
 inoremap '' ''<LEFT>
 inoremap <> <><LEFT>
+inoremap <C-b> <Backspace>
 
 "ノーマルモード中にキーマッピング
 noremap <C-e> <Esc>$a
