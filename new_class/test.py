@@ -1,5 +1,5 @@
 class test1(object):
-    def __init__(self, a):
+    def __init__(self, a='default'):
         print "init test1", a
 
     def method(self):
@@ -25,7 +25,7 @@ class test(test1, test2):
 class example(test1):
     def __init__(self):
         self.y = 1
-        super(example, self).__init__("hello")
+        super().__init__()
 
     def __del__(self):
       print "del example"
@@ -33,7 +33,7 @@ class example(test1):
 
 
 
-a = test()
-a.main()
+#a = test()
+#a.main()
 
 b = example()

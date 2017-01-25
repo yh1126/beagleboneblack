@@ -25,7 +25,9 @@ class GpioClass(object):
 
     def input(self):
         #入力
-        return GPIO.input(self.PIN)
+        while:
+          GPIO.input(self.PIN)
+          time.sleep()
 
     def output(self, value):
         #出力
