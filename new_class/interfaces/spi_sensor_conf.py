@@ -4,8 +4,9 @@
 from abc import ABCMeta
 import spidev
 
+
 class SpiSensorConf(metaclass=ABCMeta):
-    """This class have spi interface Conf."""
+    """This class has spi interface Conf."""
 
     def __init__(self, device=0, bus=0):
 
@@ -24,6 +25,7 @@ class SpiSensorConf(metaclass=ABCMeta):
 
         self.spi = spidev.SpiDev()
         self.spi.open(bus, device)
+
     def __del__(self):
         self.spi.close(self.bus, self.device)
         print('del')

@@ -6,7 +6,7 @@ import smbus
 
 
 class SmbusSensorConf(metaclass=ABCMeta):
-    """This class have i2c interface conf."""
+    """This class has i2c interface conf."""
 
     def __init__(self, address=None, bus=1):
 

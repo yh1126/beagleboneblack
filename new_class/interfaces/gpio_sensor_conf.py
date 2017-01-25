@@ -7,7 +7,7 @@ from abc import ABCMeta
 
 
 class GpioSensorConf(metaclass=ABCMeta):
-    """This class have gpio interface conf."""
+    """This class has gpio interface conf."""
 
     def __init__(self, channel=None, mode='BCM'):
 
