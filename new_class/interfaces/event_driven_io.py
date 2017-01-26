@@ -8,7 +8,7 @@ class EventDrivenIo(metaclass=ABCMeta):
     """This class is for the event driven sensors"""
 
     @abstractmethod
-    def add_event_handler(self):
+    def add_event_handler(self, handlers):
         # subclass implement this method.
         # This method is for add event handler.
         pass
