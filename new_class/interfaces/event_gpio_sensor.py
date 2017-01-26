@@ -11,8 +11,8 @@ from sensor_exception import SensorException
 class EventGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
     """This class is for the event driven sensors"""
 
-    def __init__(self):
-        
+    def __init__(self,channel, mode):
+        super().__init__(channel, mode)
 
     def add_event_handler(self, handlers, edge='HIGH'):
         # This method is for add event handler.
