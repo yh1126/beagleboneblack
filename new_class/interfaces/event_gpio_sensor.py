@@ -11,7 +11,7 @@ from sensor_exception import SensorException
 class EventGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
     """This class is for the event driven sensors"""
 
-    def __init__(self,channel, mode):
+    def __init__(self, channel, mode):
         super().__init__(channel, mode)
 
     def add_event_handler(self, handlers, edge='HIGH'):
@@ -26,17 +26,17 @@ class EventGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
         else:
             return False
 
-        if isinstance(handlers, list):↲
-            for handler in handlers:↲
-                GPIO.add_event_callback(self.PIN, handler)↲
-        else:↲
-            GPIO.add_event_callback(self.PIN, handlers)↲
-
-    def call_event_handler(self):
-        # このメソッドはGPIOのevent駆動のセンサーでは実装する必要がない
-        pass
+        if isinstance(handlers, list):
+            for handler in handlers:
+                GPIO.add_event_callback(self.PIN, handler)
+        else:
+            GPIO.add_event_callback(self.PIN, handlers)
 
     def remove_event_handler(self):
+        GPIO.remove_event_detect(self.channel)
+
+    def exception_method(self):
+        GPIO.cleanup(self.channel)
         GPIO.remove_event_detect(self.channel)
 
     __iadd__ = add_event_handler

@@ -12,3 +12,9 @@ class PeriodicIo(metaclass=ABCMeta):
         # subclass implement this method.
         # this methos is for the sensor to periodically read value.
         pass
+
+    def set_interval(self):
+        pass
+
+    def set_loop_flag(self):
+        pass

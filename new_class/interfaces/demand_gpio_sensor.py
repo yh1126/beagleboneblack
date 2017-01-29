@@ -13,6 +13,9 @@ from sensor_exception import SensorException
 class DemandDrivenIo(metaclass=ABCMeta):
     """This class is for the demand driven sensors"""
 
+    def __init__(self, channel, mode):
+      
+
     @abstractmethod
     def read(self):
         # subclass implement this method.

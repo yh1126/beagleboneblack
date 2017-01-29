@@ -17,11 +17,8 @@ class GpioSensorConf(metaclass=ABCMeta):
         if isinstance(channel, int):
             self.channel = channel
             print('Select', channel, 'pin')
-        elif isinstance(channel, list):
-            self.channel = channel
-            print('Select', *channel, 'pin')
         else:
-            print('Please give a value of int or list.')
+            print('Please give an integer addressor.')
             return False
 
         if mode == 'BCM':

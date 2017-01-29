@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABCMeta
-import time↲
-import RPi.GPIO↲
-from gpio_sensor_conf import GpioSensorConf↲
-from periodci_io import PeriodicIo↲
-from sensor_exception import SensorException↲
+import time
+import types 
+import RPi.GPIO
+from gpio_sensor_conf import GpioSensorConf
+from periodci_io import PeriodicIo
+from sensor_exception import SensorException
 from event import Event
 # validation用のモジュールを追加したら楽？
 
@@ -14,28 +15,52 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
     """This class is for the periodically driven sensors"""
 
     def __init__(self, channel, mode, interval=0.5, loop_flag=1):
-        self.loop_interval  = interval
-        self.loop_flag      = loop_flag
-        self.event_handlers = Event()
+        if isinstance(interval, int):
+            self.loop_interval  = interval
+        elif isinstance(interval, float):
+            self.loop_interval  = interval
+        else:
+            print(interval, 'is not suppoerted. Please give an integer or float interval value.')
+
+        if loop_flag == True or loop_flag == Flase:
+            self.loop_flag = loop_flag
+        else:
+            print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
+
         super().__init__(self, channel, mode)
 
-    # def read(self):
-    #     return GPIO.input(self.channel)
+    def read(self, *methods):
+        # this method is for the sensor to periodically read value.
+        for method in methods:
+            if isinstance(method, types.FunctionType):
+                pass
+            else:
+                print(m, 'is not supported. Please give a function.')
 
-    @abstractmethod
-    def periodic_read(self, *method):
-        # this methos is for the sensor to periodically read value.
         while:
-            time.sleep(self.loop_interval)
-        pass
+            try:
+                for method in methods:
+                    method()
+                time.sleep(self.loop_interval)
+            except:
+                exception_method()
 
-    def set_interval(self, value):
-          self.loop_interval = value
-          return loop_interval
+    def set_interval(self, interval):
+        if isinstance(interval, int):
+            self.loop_interval  = interval
+            return loop_interval
+        elif isinstance(interval, float):
+            self.loop_interval  = interval
+            return loop_interval
+        else:
+            print(interval, 'is not suppoerted. Please give an integer or float interval value.')
+            return False
 
-    def set_loop_flag(self, value):
-       if value == 0 or value == 1:
-            self.loop_flag = value
-            return loop_flag
-      else:
-            print('Please give 0 or 1')
+    def set_loop_flag(self, loop_flag):
+        if loop_flag == True or loop_flag == Flase:
+            self.loop_flag = loop_flag
+        else:
+            print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
+
+    def exception_method(self):
+        GPIO.cleanup(self.channel)
