@@ -16,7 +16,11 @@ class GpioSensorConf(metaclass=ABCMeta):
 
         if isinstance(channel, int):
             self.channel = channel
-            print('Select', channel, 'pin')
+            print(channel, 'pin selected.')
+        elif: isinstance(channel, list):
+            self.channels = channel
+            print(channels[0], 'is input channel'.)
+            print(channels[1], 'is output channel'.)
         else:
             print('Please give an integer addressor.')
             return False

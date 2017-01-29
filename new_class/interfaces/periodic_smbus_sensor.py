@@ -4,6 +4,7 @@
 from abc import ABCMeta
 import time
 import types 
+import smbus
 import RPi.GPIO
 from gpio_sensor_conf import GpioSensorConf
 from periodci_io import PeriodicIo
