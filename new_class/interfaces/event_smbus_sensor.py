@@ -16,6 +16,8 @@ class EventGpioSensor(SmbusSensorConf, EventDrivenIo, SensorException):
 
     def add_event_handler(self, **handlers):
         # This method is for add event handler.
+        # 一つイベントハンドラを追加できる
+        # 特定のイベント(値)に対して
            for handler_key in handlers.keys():
                 if isinstance(handler_key, int):
                     pass
