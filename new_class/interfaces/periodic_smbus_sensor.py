@@ -5,16 +5,14 @@ from abc import ABCMeta
 import time
 import types 
 import smbus
-import RPi.GPIO
-from gpio_sensor_conf import GpioSensorConf
+from smbus_sensor_conf import SmbusSensorConf
 from periodci_io import PeriodicIo
 from sensor_exception import SensorException
-from event import Event
 
-class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta):
+class PeriodicSmbusSensor(SmbusSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
-    def __init__(self, channel, pin_mode='BCM', interval=0.5, loop_flag=1):
+    def __init__(self, address=None, bus=1, interval=0.5, loop_flag=1):
         if isinstance(interval, int):
             self.loop_interval  = interval
         elif isinstance(interval, float):
@@ -27,9 +25,9 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
         else:
             print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
 
-        super().__init__(self, channel, pin_mode)
+        super().__init__(self, address, bus)
 
-    def read(self, *methods):
+    def periodic_read(self, *methods):
         # this method is for the sensor to periodically read value.
         for method in methods:
             if isinstance(method, types.FunctionType):
@@ -44,6 +42,17 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
                 time.sleep(self.loop_interval)
             except:
                 exception_method()
+
+    def read(self, mode='byte', cmd=None, *blocks):
+        if mode == 'byte':
+            return self.i2c.read_byte(self.address)
+        elif mode == 'byte' and cmd != None:
+            return self.i2c.read_byte_data(self.address, cmd)
+        elif mode == 'block' and cmd != None:
+            return self.i2c.read_block_data(self.address, cmd, blocks[0])
+        else:
+            print('Not Supported data.')
+            return False
 
     def set_interval(self, interval):
         if isinstance(interval, int):
@@ -63,4 +72,4 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
             print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
 
     def exception_method(self):
-        GPIO.cleanup(self.channel)
+        print('called exception method')

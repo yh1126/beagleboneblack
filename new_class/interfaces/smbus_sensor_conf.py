@@ -14,7 +14,7 @@ class SmbusSensorConf(metaclass=ABCMeta):
 
         if isinstance(address, int):
             self.address = address
-            print('Select', address, 'address.')
+            print( address, 'address selected.')
         else:
             print('Please give a address value of int!!')
             return False

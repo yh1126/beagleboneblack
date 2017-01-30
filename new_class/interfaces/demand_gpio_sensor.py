@@ -17,7 +17,7 @@ class DemandGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
     def __init__(self, demand, channels. pin_mode='BCM'):
         super().__init__(self, channels, pin_mode)
 
-    def demand_issue(self, demand, handlers, catch_edge='HIGH')
+    def demand_issue(self, demand, handlers, catch_edge='HIGH'):
         if isinstance(demand, Demand):
             demand = Demand()
         else:

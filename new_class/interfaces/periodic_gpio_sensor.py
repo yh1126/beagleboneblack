@@ -8,9 +8,8 @@ import RPi.GPIO
 from gpio_sensor_conf import GpioSensorConf
 from periodci_io import PeriodicIo
 from sensor_exception import SensorException
-from event import Event
 
-class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta):
+class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
     def __init__(self, channel, pin_mode='BCM', interval=0.5, loop_flag=1):
