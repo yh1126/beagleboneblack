@@ -6,53 +6,34 @@ import smbus
 from smbus_sensor_conf import SmbusSensorConf
 from event_driven_io import EventDrivenIo
 from sensor_exception import SensorException
-
+from event_handler import EventHandler
 
 class EventGpioSensor(SmbusSensorConf, EventDrivenIo, SensorException):
     """This class is for the event driven sensors"""
 
     def __init__(self, address=None, bus=1):
         super().__init__(address, bus)
+        self.event_handler = EventHandler()
 
-    def add_event_handler(self, **handlers):
+    def add_event_handler(self, event, handler):
         # This method is for add event handler.
-        # 一つイベントハンドラを追加できる
-        # 特定のイベント(値)に対して
-           for handler_key in handlers.keys():
-                if isinstance(handler_key, int):
-                    pass
-                else:
-                    print(handler_key, 'is not supported.')
-                    return False
+        # eventを指定して、そのイベントにメソッドを追加する
+        self.event_handler.add(event, handler)
 
-            for handler_value in handlers.keys():
-                if isinstance(handler_valuem types.FunctionType):
-                    pass
-                else:
-                    print(handler_value, 'is not supported.')
-                    return False
-        else:
-              return False
 
-        self.handler_keys   = list(handlers.keys())
-        self.handler_values = list(handlers.values())
-        self.handlers = handlers
-# handlersの例: {'12345': test_method, '1222':(test_method1, test_method2), 'any':any_method}
-
-        # どんな値であっても特定のメソッドを呼ぶケース
-        # ある値であるメソッドを呼ぶケース
     def run(self, read_mode, read_cdm, read_blocks):
-        self.sensor_value = self.read(read_mode, read_cmd, read_blocks)
-        if self.sensor_value in handler_keys:
-            # keyの中に取得してきた値があれば、そのキーに対応したメソッドをよぶ
-            if isinstance(self.handlers[sensor_value]):
-                for method in self.handlers[sensor_value]:
-                    method()
+        while True:
+            # ポーリングで特定のレジスタを読んでくる
+            # センサーで読み取ってくる値 = イベントの値
+            # ここでの問題は計算式に入れる前の値をセンサーはとってくるので、イベントをしっかり設定する必要あり
+            self.sensor_value = self.read(read_mode, read_cmd, read_blocks)
+            #この間に計算式を入れて得られた値をeventとして探す方法でもあり
+            if self.sensor_value in event_handler.events.keys():
+                # keyの中に取得してきた値があれば、そのキーに対応したメソッドをよぶ
+                self.event_handler(self.sensor_value)
             else:
-                self.handlers[self.sensor_value]()
-        else:
-            # anyをキーとするメソッドを呼ぶ
-            self.handlers['any']()
+                # otherをキーとするメソッドを呼ぶ
+                self.event_handler('other')
 
     def read(self, mode='byte', cmd=None, *blocks):
         if mode == 'byte':
@@ -66,12 +47,8 @@ class EventGpioSensor(SmbusSensorConf, EventDrivenIo, SensorException):
             return False
 
 
-    def remove_event_handler(self):
-        GPIO.remove_event_detect(self.channel)
+    def remove_event_handler(self, event):
+        self.event_handler(event)
 
     def exception_method(self):
-        GPIO.cleanup(self.channel)
-        GPIO.remove_event_detect(self.channel)
-
-    __iadd__ = add_event_handler
-    __isub__ = remove_evnet_handler
+        self.event_handler(event)

@@ -25,7 +25,7 @@ class Demand(object):
             else:
                 print(edge, 'is not supported. Please give a True or False.')
         else:
-            #型判定は後で実装
+            #型判定は後で実装 0番地にモードを, 1番地にレジスタを
             self.write_mode  = write[0]
             self.write_cmd   = write[1]
             self.write_value = write[2]
