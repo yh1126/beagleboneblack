@@ -4,16 +4,15 @@
 from abc import ABCMeta
 import time
 import types 
-import RPi.GPIO
-from gpio_sensor_conf import GpioSensorConf
+import spidev
+from spi_sensor_conf import SpiSensorConf
 from periodci_io import PeriodicIo
 from sensor_exception import SensorException
-from event import Event
 
-class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta):
+class PeriodicSmbusSensor(SpiSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
-    def __init__(self, channel, pin_mode='BCM', interval=0.5, loop_flag=1):
+    def __init__(self, device=0, bus=0, interval=0.5, loop_flag=1):
         if isinstance(interval, int):
             self.loop_interval  = interval
         elif isinstance(interval, float):
@@ -21,14 +20,15 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
         else:
             print(interval, 'is not suppoerted. Please give an integer or float interval value.')
 
-        if loop_flag == True or loop_flag == Flase:
+        if loop_flag == True or loop_flag == False:
             self.loop_flag = loop_flag
         else:
             print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
 
-        super().__init__(self, channel, pin_mode)
+        super().__init__(self, device, bus)
 
-    def read(self, *methods):
+    def periodic_read(self, *methods):
+        # methods is tuple
         # this method is for the sensor to periodically read value.
         for method in methods:
             if isinstance(method, types.FunctionType):
@@ -43,6 +43,15 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
                 time.sleep(self.loop_interval)
             except:
                 exception_method()
+
+    def read(self, addr, byte=1):
+        return self.spi.readByte(addr, byte)
+
+    def write(self, addr, byte=1, values=None, mode='byte'):
+        if mode == 'byte':
+            self.spi.writeBytes(addr, values)
+        elif mode == 'xfer'
+            return self.xfer2(values)
 
     def set_interval(self, interval):
         if isinstance(interval, int):
@@ -62,4 +71,5 @@ class PeriodicIo(GpioSensorConf, PeriodicIo, Sensorexception, metaclass=ABCMeta)
             print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')
 
     def exception_method(self):
-        GPIO.cleanup(self.channel)
+        self.spi.close()
+        print('called exception method')

@@ -27,16 +27,19 @@ class EventHandler(object):
         print(self.events, 'complete add')
         return self
 
-    def remove(self, event):
+    def remove(self):
         #イベント(key)を元にメソッドを削除
-        self.events.pop(self.events[event])
+        del self.events
         return self
 
-    def run(self, event):
+    def call_methods(self, event, earg=None):
         #イベント(key)を元にメソッドをコール
         #listで値があるものと、単一であるもので
-        for method in self.events[event]:
-            method()
+        if event in self.events:
+            for method in self.events[event]:
+                method(earg)
+        else:
+            return self
         return self
 
         # keyがないときのエラーをちゃんと書く

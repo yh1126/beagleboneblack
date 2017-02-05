@@ -4,8 +4,13 @@
 
 class Demand(object):
 
-    def __init__(self, mode, edge, *interval, *write, *read):
-        print(mode, edge)
+    def __init__(self, mode, edge, interval=0.1, *write, *read):
+        self.read_methods = []
+        self.write_methods = []
+        self.output_edge
+        self.mode
+        self.interval
+
         if isinstance(mode, str):
             if mode.upper() == 'DOUBLE':
                 self.mode  = mode.upper()
@@ -21,22 +26,23 @@ class Demand(object):
 
         if self.mode == 'DOUBLE' or self.mode == 'SINGLE':
             if edge == True or edge == False:
-              self.next_edge = edge
+              self.output_edge = edge
             else:
                 print(edge, 'is not supported. Please give a True or False.')
+
         else:
-            #型判定は後で実装 0番地にモードを, 1番地にレジスタを
-            self.write_mode  = write[0]
-            self.write_cmd   = write[1]
-            self.write_value = write[2]
-            self.read_mode  = read[0]
-            self.read_cmd    = read[1]
-            self.read_blocks  = read[2] # read[1]が存在することを事前に確認する必要あり
+            if write != ():
+                for write_method in write:
+                    self.write_methods.append(write)
+
+            if read != ():
+                for read_method in read:
+                    self.read_methods.append(read)
 
         if interval != []:
             self.interval = interval
         else:
-            pass
+            self.interval = 0.1 # default by my package
 
     def set_mode(self, mode):
         if isinstance(mode, str):
@@ -54,7 +60,7 @@ class Demand(object):
 
     def set_edge(self, edge):
         if edge == True or edge == False:
-            self.edge == edge
+            self.edge = edge
         else:
             print(edge, 'is not supported. Please giva a Tru or False.')
 
@@ -63,4 +69,3 @@ class Demand(object):
             self.interval = interval
         else:
             print('Please give a value.')
-        # 型判定は後で実装

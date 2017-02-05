@@ -5,59 +5,60 @@ from abc import ABCMeta
 import time
 import types
 import smbus
-from gpio_sensor_conf import GpioSensorConf
-from event_driven_io import EventDrivenIo
+from smbus_sensor_conf import SmbusSensorConf
+from demand_driven_io import DemandDrivenIo
 from sensor_exception import SensorException
 from demand import Demand
 
 
-class DemandSmbusSensor(GpioSensorConf, EventDrivenIo, SensorException):
+class DemandSmbusSensor(SmbusSensorConf, DemandDrivenIo, SensorException):
     """This class is for the demand driven sensors"""
 
-    def __init__(self, demand, address=None, bus=1):
+    def __init__(self, address=None, bus=1):
         super().__init__(self, address, bus)
+        self.event_handlers = EventHandler()
 
-    def demand_issue(self, demand, **handlers):
+    def demand_issue(self, demand, **catch_event)
+        self.sensor_data = [] # 読み取ってとってくる値を取得
         if isinstance(demand, Demand):
             demand = Demand()
         else:
             print('Please give a Demand object.')
             return False
 
-        if demand.mode == 'CMD':
-            for handler_key in handlers.keys():
-                if isinstance(handler_key, int):
-                    pass
+        if catch_event != {}:
+            # cath_eventは{'1011':method} これがもらえるとよそう
+            # main処理 書 -> 読 -> コールバック(値に応じた)
+            for event in catch_event:
+                self.event_handlers.add(event, catch_event[event])
+
+            for write in demand.write_methods():
+                write()
+
+            time.sleep(demand.interval)
+
+            for read in demand.read_methods():
+                self.sensor_value = read()
+                if self.sensor_value in event_handler.events.keys():
+                    self.event_handler(self.sensor_value)
                 else:
-                    print(handler_key, 'is not supported.')
-                    return False
+                    self.event_handler('other')
 
-            for handler_value in handlers.keys():
-                if isinstance(handler_valuem types.FunctionType):
-                    pass
-                else:
-                    print(handler_value, 'is not supported.')
-                    return False
+                self.sensor_data.append(self.sensor_value)
         else:
-              return False
+            # catch_event == {}
+            for write in demand.write_method():
+                write()
 
-        self.handler_keys   = list(handlers.keys())
-        self.handler_values = list(handlers.values())
-        self.handlers = handlers
+            time.sleep(demand.interval)
 
-        # 一度だけ書き込むのか、それとも呼び出されるたび書き込むのか？
-        self.write(demand.write_value, demand.write_mode, demand.write_cmd)
-        time.sleep(demand.interval)
-        self.sensor_value = self.read(demand.read_mode, demand.read_cmd, read_blocks)
+            self.sensor_value = read()
+            for self.sensor_value in demand.read_methods():
+                self.sensor_data.append(self.sensor_value)
 
-        # どんな値であっても特定のメソッドを呼ぶケース
-        # ある値であるメソッドを呼ぶケース
-        if self.sensor_value in handler_keys:
-            # keyの中に取得してきた値があれば、そのキーに対応したメソッドをよぶ
-            self.handlers[self.sensor_value]()
-        else:
-            # anyをキーとするメソッドを呼ぶ
-            self.handlers['any']()
+        self.event_handlers.remove()
+        return self.sensor_data
+
 
     def read(self, mode='byte', cmd=None, *blocks):
         if mode == 'byte':
@@ -83,5 +84,4 @@ class DemandSmbusSensor(GpioSensorConf, EventDrivenIo, SensorException):
             return False
 
       def exception_method(self):
-          GPIO.remove_event_detect(self.channels[0])
-          GPIO.cleanup(self.channels)
+          pass

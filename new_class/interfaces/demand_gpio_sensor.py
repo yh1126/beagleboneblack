@@ -6,18 +6,18 @@ import time
 import types
 import RPi.GPIO
 from gpio_sensor_conf import GpioSensorConf
-from event_driven_io import EventDrivenIo
+from demand_driven_io import DemandDrivenIo
 from sensor_exception import SensorException
 from demand import Demand
 
 
-class DemandGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
+class DemandGpioSensor(GpioSensorConf, DemandDrivenIo, SensorException):
     """This class is for the demand driven sensors"""
 
     def __init__(self, demand, channels. pin_mode='BCM'):
         super().__init__(self, channels, pin_mode)
 
-    def demand_issue(self, demand, handlers, catch_edge='HIGH'):
+    def demand_issue(self, demand, handlers, catch_event=None):
         if isinstance(demand, Demand):
             demand = Demand()
         else:
@@ -27,22 +27,22 @@ class DemandGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
         if demand.mode == 'DOUBLE':
             GPIO.output(self.channels[1], True)
             time.sleep(demand.interval)
-            GPIO.output(self.channels[0], False)
+            GPIO.output(self.channels[1], False)
         elif demand.mode == 'SINGLE':
-            GPIO.output(self.channels[1], demand.edge)
-            if demand.edge == True:
+            GPIO.output(self.channels[1], demand.output_edge)
+            if demand.output_edge == True:
                 demand.set_edge(False)
             else:
                 demand.set_edge(True)
 
-        if catch_edge == 'HIGH':
+        if catch_event == 'HIGH':
             GPIO.add_event_detect(self.channel[0], GPIO.RISING)
-        elif catch_edge == 'LOW':
+        elif catch_event == 'LOW':
             GPIO.add_event_detect(self.channel[0], GPIO.FAILING)
-        elif catch_edge == 'BOTH':
+        elif catch_event == 'BOTH':
             GPIO.add_event_detect(self.channel[0], GPIO.BOTH)
         else:
-            return False
+            return GPIO.input(self.channle[0])
 
       if isinstance(handlers, list):
           for handler in handlers:

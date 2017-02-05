@@ -13,6 +13,7 @@ class PeriodicSmbusSensor(SmbusSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
     def __init__(self, address=None, bus=1, interval=0.5, loop_flag=1):
+        assert address is not None, 'Please select address.'
         if isinstance(interval, int):
             self.loop_interval  = interval
         elif isinstance(interval, float):
@@ -20,7 +21,7 @@ class PeriodicSmbusSensor(SmbusSensorConf, PeriodicIo, Sensorexception):
         else:
             print(interval, 'is not suppoerted. Please give an integer or float interval value.')
 
-        if loop_flag == True or loop_flag == Flase:
+        if loop_flag == True or loop_flag == False:
             self.loop_flag = loop_flag
         else:
             print(loop_flag, 'is not suppoerted. Please give a False(0) or True(1).')

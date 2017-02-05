@@ -4,58 +4,70 @@
 from abc import ABCMeta
 import time
 import types
+import spidev
 import RPi.GPIO
-from gpio_sensor_conf import GpioSensorConf
-from event_driven_io import EventDrivenIo
+from spi_sensor_conf import SpiSensorConf
+from demand_driven_io import DemandDrivenIo
 from sensor_exception import SensorException
 from demand import Demand
+from event_handler import EventHandler
 
-
-class DemandGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
+class DemandSpiSensor(SpiSensorConf, DemandtDrivenIo, SensorException):
     """This class is for the demand driven sensors"""
 
-    def __init__(self, demand, channels. pin_mode='BCM'):
-        super().__init__(self, channels, pin_mode)
+    def __init__(self, device=0, bus=0):
+        super().__init__(self, device, bus)
+        self.event_handlers = EventHandler()
 
-    def demand_issue(self, demand, handlers, catch_edge='HIGH')
+    def demand_issue(self, demand, **catch_event)
+        self.sensor_data = [] # 読み取ってとってくる値を取得
         if isinstance(demand, Demand):
             demand = Demand()
         else:
             print('Please give a Demand object.')
             return False
 
-        if demand.mode == 'DOUBLE':
-            GPIO.output(self.channels[1], True)
+        if catch_event != {}:
+            # cath_eventは{'1011':method} これがもらえるとよそう
+            # main処理 書 -> 読 -> コールバック(値に応じた)
+            for event in catch_event:
+                self.event_handlers.add(event, catch_event[event])
+
+            for write in demand.write_methods():
+                write()
+
             time.sleep(demand.interval)
-            GPIO.output(self.channels[0], False)
-        elif demand.mode == 'SINGLE':
-            GPIO.output(self.channels[1], demand.edge)
-            if demand.edge == True:
-                demand.set_edge(False)
-            else:
-                demand.set_edge(True)
 
-        if catch_edge == 'HIGH':
-            GPIO.add_event_detect(self.channel[0], GPIO.RISING)
-        elif catch_edge == 'LOW':
-            GPIO.add_event_detect(self.channel[0], GPIO.FAILING)
-        elif catch_edge == 'BOTH':
-            GPIO.add_event_detect(self.channel[0], GPIO.BOTH)
+            for read in demand.read_methods():
+                self.sensor_value = read()
+                if self.sensor_value in event_handler.events.keys():
+                    self.event_handler(self.sensor_value)
+                else:
+                    self.event_handler('other')
+
+                self.sensor_data.append(self.sensor_value)
         else:
-            return False
+            # catch_event == {}
+            for write in demand.write_method():
+                write()
 
-      if isinstance(handlers, list):
-          for handler in handlers:
-              if isinstance(handler, types.FunctionType):
-                  GPIO.add_event_callback(self.channels[0], handler)
-              else:
-                  return False
-      else:
-          GPIO.add_event_callback(self.channels[0], handler)
+            time.sleep(demand.interval)
 
-      GPIO.remove_event_detect(self.channels[0])
-      GPIO.cleanup(self.channels)
+            for read in demand.read_methods():
+                self.sensor_data.append(self.sensor_value)
 
-      def exception_method(self):
-          GPIO.remove_event_detect(self.channels[0])
-          GPIO.cleanup(self.channels)
+        self.event_handlers.remove()
+        return self.sensor_data
+
+    def read(self, addr, byte=1):
+        return self.spi.readByte(addr, byte)
+
+    def write(self, addr, byte=1, *values, mode='byte'):
+        if mode == 'byte':
+            self.spi.writeBytes(addr, values)
+        elif mode == 'xfer'
+            return self.xfer2(values)
+
+    def exception_method(self):
+        self.spi.close()
+        self.event_handlers.remove()
