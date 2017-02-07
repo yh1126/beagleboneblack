@@ -10,7 +10,7 @@ class B(A):
     def test2(self, x):
         print('test2 method', x)
 
-class C(B, A):
+class C(B):
     def __init__(self):
         super().__init__()
 

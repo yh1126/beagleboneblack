@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 
 class SensorException(metaclass=ABCMeta):

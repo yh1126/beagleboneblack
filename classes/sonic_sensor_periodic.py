@@ -45,8 +45,8 @@ class SonicSensorPeriodci(object):
 
                 self.user_method1()
 
-          except:
-              self.exception_method()
+            except:
+                self.exception_method()
 
     def user_method1(self, earg=None):
          print('call user method')

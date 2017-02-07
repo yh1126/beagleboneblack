@@ -6,11 +6,11 @@ import time
 from periodic_gpio_sensor import PeriodicGpioSensor
 
 
-class SonicSensorPeriodci(PeriodicGpioSensor):
+class SonicSensorPeriodic(PeriodicGpioSensor):
     def __init__(self):
-        super().__init__([21, 20])
-        self.user_methods = [sensor_method, user_method1]
-        self.event_handler.add_event_handler(20, user_method2)
+        super().__init__([20, 21], 2)
+        self.user_methods = [self.sensor_method, self.user_method1]
+        self.event_handler.add_event_handler(20, self.user_method2)
         self.pulse_start = 0
         self.pulse_end = 0
         self.pulse_duration = 0
@@ -18,6 +18,7 @@ class SonicSensorPeriodci(PeriodicGpioSensor):
 
     def main(self):
         self.periodic_read(self.user_methods)
+        pass
 
     def sensor_method(self):
         print("Distance Measurement in Progress")
@@ -40,12 +41,13 @@ class SonicSensorPeriodci(PeriodicGpioSensor):
         print("Distance: ", self.distance, "cm")
         if(self.distance < 20):
             self.sensor_value = 20
-        else:
-            pass
-        time.sleep(0.5)
+            
 
     def user_method1(self, earg=None):
         print('call user method')
 
     def user_method2(self, earg=None):
         print('hello, world')
+
+t = SonicSensorPeriodic()
+t.main()

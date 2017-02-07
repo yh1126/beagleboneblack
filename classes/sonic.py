@@ -42,7 +42,7 @@ class SonicSensor(object):
           print("@@@@call capture method@@@@")
           self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + "_" + threading.currentThread().getName()
           #self.image_detail = datetime.datetime.today().strftime("%Y%m%d_%H%M%S")
-          self.evt(self, self.image_detail)
+          #self.evt(self, self.image_detail)
         else:
           print("not call capture method")
         time.sleep(0.5)
@@ -55,5 +55,5 @@ class SonicSensor(object):
     GPIO.cleanup()
 
 
-#t = SonicSensor()
-#t.measure('aaa')
+t = SonicSensor()
+t.measure('aaa')

@@ -5,12 +5,9 @@ import types
 
 class Demand(object):
 
-    def __init__(self, mode, edge, pulse_time=0.1, *write, *read):
+    def __init__(self, mode, edge, pulse_time=0.1, write=None, read=None):
         self.read_methods = []
         self.write_methods = []
-        self.output_edge
-        self.mode
-        self.pulse_time
 
         if isinstance(mode, str):
             if mode.upper() == 'DOUBLE':
@@ -34,11 +31,11 @@ class Demand(object):
                 print(edge, 'is not supported. Please give a True or False.')
 
         else:
-            if write != ():
+            if write is not None:
                 for write_method in write:
                     self.write_methods.append(write)
 
-            if read != ():
+            if read is not None:
                 for read_method in read:
                     self.read_methods.append(read)
 

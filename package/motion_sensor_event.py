@@ -1,17 +1,18 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+import RPi.GPIO as GPIO
 import time
 from event_gpio_sensor import EventGpioSensor
 
 
 class MotionSensorEvent(EventGpioSensor):
     def __init__(self):
-        super().__init__(18)
-        self.user_method = [user_method1, user_method2]
+        super().__init__(18, 'BCM')
+        self.user_method = [self.user_method1, self.user_method2]
 
     def main(self):
-        super().add_event_hander(self, user_method, 'high')
+        super().add_event_handler(self.user_method, 'high')
 
         while True:
             try:
@@ -25,3 +26,7 @@ class MotionSensorEvent(EventGpioSensor):
 
     def user_method2(self):
         print('hello, world')
+
+GPIO.cleanup()
+m = MotionSensorEvent()
+m.main()

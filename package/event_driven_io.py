@@ -1,14 +1,14 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 
 class EventDrivenIo(metaclass=ABCMeta):
     """This class is for the event driven sensors"""
 
     @abstractmethod
-    def add_event_handler(self, handlers):
+    def add_event_handler(self):
         # subclass implement this method.
         # This method is for add event handler.
         pass
@@ -24,7 +24,3 @@ class EventDrivenIo(metaclass=ABCMeta):
         # subclass implement this method.
         # This method is for add event handler.
         pass
-
-    __iadd__ = add_event_handler
-    __call__ = call_event_handler
-    __isub__ = remove_evnet_handler
