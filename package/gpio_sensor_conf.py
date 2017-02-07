@@ -15,20 +15,20 @@ class GpioSensorConf(metaclass=ABCMeta):
         # Noneのようなシングルトンと比較する時は等価演算子は使っちゃだめ
 
         if isinstance(channel, int):
-            self.channel = channel
+            self.channel = [channel]
             print(channel, 'pin selected.')
         elif: isinstance(channel, list):
-            self.channels = channel
-            print(channels[0], 'is input channel'.)
-            print(channels[1], 'is output channel'.)
+            self.channel = channel
+            print(channel[0], 'is input channel'.)
+            print(channel[1], 'is output channel'.)
         else:
             print('Please give an integer addressor.')
             return False
 
-        if mode == 'BCM':
+        if mode.upper() == 'BCM':
             print('select BCM mode.')
             GPIO.setmode(GPIO.BCM)
-        elif mode == 'BOARD':
+        elif mode.upper() == 'BOARD':
             print('select BOARD mode.')
             GPIO.setmode(GPIO.BOARD)
         else:

@@ -17,27 +17,27 @@ class EventGpioSensor(GpioSensorConf, EventDrivenIo, SensorException):
     def add_event_handler(self, handlers, edge='HIGH'):
         # This method is for add event handler.
 
-        if edge == 'HIGH':
-            GPIO.add_event_detect(self.channel, GPIO.RIGING)
-        elif edge == 'LOW':
-            GPIO.add_event_detect(self.channel, GPIO.FALLING)
-        elif edge == 'BOTH':
-            GPIO.add_event_detect(self.channel, GPIO.BOTH)
+        if edge.upper() == 'HIGH':
+            GPIO.add_event_detect(self.channel[0], GPIO.RIGING)
+        elif edge.upper() == 'LOW':
+            GPIO.add_event_detect(self.channel[0], GPIO.FALLING)
+        elif edge.upper() == 'BOTH':
+            GPIO.add_event_detect(self.channel[0], GPIO.BOTH)
         else:
             return False
 
         if isinstance(handlers, list):
             for handler in handlers:
-                GPIO.add_event_callback(self.PIN, handler)
+                GPIO.add_event_callback(self.channel[0], handler)
         else:
-            GPIO.add_event_callback(self.PIN, handlers)
+            GPIO.add_event_callback(self.channel[0], handlers)
 
     def remove_event_handler(self):
-        GPIO.remove_event_detect(self.channel)
+        GPIO.remove_event_detect(self.channel[0])
 
     def exception_method(self):
-        GPIO.cleanup(self.channel)
-        GPIO.remove_event_detect(self.channel)
+        GPIO.cleanup(self.channel[0])
+        GPIO.remove_event_detect(self.channel[0])
 
     __iadd__ = add_event_handler
     __isub__ = remove_evnet_handler

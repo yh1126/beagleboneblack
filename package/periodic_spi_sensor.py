@@ -8,11 +8,13 @@ import spidev
 from spi_sensor_conf import SpiSensorConf
 from periodci_io import PeriodicIo
 from sensor_exception import SensorException
+from event_handler import EventHandler
 
 class PeriodicSmbusSensor(SpiSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
     def __init__(self, device=0, bus=0, interval=0.5, loop_flag=1):
+        self.event_handler = EventHandler()
         if isinstance(interval, int):
             self.loop_interval  = interval
         elif isinstance(interval, float):

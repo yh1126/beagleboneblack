@@ -1,15 +1,16 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+import types
 
 class Demand(object):
 
-    def __init__(self, mode, edge, interval=0.1, *write, *read):
+    def __init__(self, mode, edge, pulse_time=0.1, *write, *read):
         self.read_methods = []
         self.write_methods = []
         self.output_edge
         self.mode
-        self.interval
+        self.pulse_time
 
         if isinstance(mode, str):
             if mode.upper() == 'DOUBLE':
@@ -18,8 +19,10 @@ class Demand(object):
                 self.mode  = mode.upper()
             elif mode.upper() == 'CMD':
                 self.mode  = mode.upper()
+            elif self.mode is None:
+                self.mode = None
             else:
-                print(mode, 'is not supported. Please give a value(double, single, cmd).')
+                print(mode, 'is not supported. Please give a value(double, single, cmd, None).')
                 return False
         else:
             print(mode, 'is not supported. Please give a value(double, single, cmd).')
@@ -39,10 +42,13 @@ class Demand(object):
                 for read_method in read:
                     self.read_methods.append(read)
 
-        if interval != []:
-            self.interval = interval
+        if isinstance(pulse_time, int):
+            self.pulse_time = pulse_time
+        elif isinstance(pulse_time, float):
+            self.pulse_time = pulse_time
         else:
-            self.interval = 0.1 # default by my package
+            # set default value(0.1).
+            self.pulse_time = 0.1
 
     def set_mode(self, mode):
         if isinstance(mode, str):
@@ -52,6 +58,8 @@ class Demand(object):
                 self.mode  = mode.upper()
             elif mode.upper() == 'CMD':
                 self.mode  = mode.upper()
+            elif mode is None:
+                self.mode = None
             else:
                 print(mode, 'is not supported. Please give a value(double, single, cmd).')
                 return False
@@ -64,8 +72,10 @@ class Demand(object):
         else:
             print(edge, 'is not supported. Please giva a Tru or False.')
 
-    def set_interval(self, interval):
-        if interval != []:
-            self.interval = interval
+    def set_pulse_time(self, pulse_time):
+        if isinstance(pulse_time, int):
+            self.pulse_time = pulse_time
+        elif isinstance(pulse_time, float):
+            self.pulse_time = pulse_time
         else:
             print('Please give a value.')

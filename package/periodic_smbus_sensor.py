@@ -8,12 +8,14 @@ import smbus
 from smbus_sensor_conf import SmbusSensorConf
 from periodci_io import PeriodicIo
 from sensor_exception import SensorException
+from event_handler import EventHandler
 
 class PeriodicSmbusSensor(SmbusSensorConf, PeriodicIo, Sensorexception):
     """This class is for the periodically driven sensors"""
 
     def __init__(self, address=None, bus=1, interval=0.5, loop_flag=1):
         assert address is not None, 'Please select address.'
+        self.event_handler = EventHandler()
         if isinstance(interval, int):
             self.loop_interval  = interval
         elif isinstance(interval, float):
