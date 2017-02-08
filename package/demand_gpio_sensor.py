@@ -27,14 +27,14 @@ class DemandGpioSensor(GpioSensorConf, DemandDrivenIo, SensorException):
             print('Please give a Demand object.')
             return False
 
-        if catch_event.upper() == 'HIGH':
-            GPIO.add_event_detect(self.channel[0], GPIO.RISING)
-        elif catch_event.upper() == 'LOW':
-            GPIO.add_event_detect(self.channel[0], GPIO.FALLING)
-        elif catch_event.upper() == 'BOTH':
-            GPIO.add_event_detect(self.channel[0], GPIO.BOTH)
-        else:
-            return GPIO.input(self.channle[0])
+        #if catch_event.upper() == 'HIGH':
+        #    GPIO.add_event_detect(self.channel[0], GPIO.RISING)
+        #elif catch_event.upper() == 'LOW':
+        #    GPIO.add_event_detect(self.channel[0], GPIO.FALLING)
+        #elif catch_event.upper() == 'BOTH':
+        #    GPIO.add_event_detect(self.channel[0], GPIO.BOTH)
+        #else:
+        #    return GPIO.input(self.channle[0])
 
  
         if isinstance(handlers, list):
@@ -63,11 +63,20 @@ class DemandGpioSensor(GpioSensorConf, DemandDrivenIo, SensorException):
             else:
                 self.demand.set_edge(True)
         else:
-            print
+            print()
 
         while self.loop_flag:
             print('wait')
-            time.sleep(1)
+
+        if catch_event.upper() == 'HIGH':
+            while GPIO.input(channel[0]) == 0:
+                print('waiting event', 1)
+        elif catch_event.upper() == 'LOW':
+            while GPIO.input(channel[0]) == 1:
+                print('waiting event', 0)
+        else:
+            return GPIO.input(self.channle[0])
+
 
         GPIO.remove_event_detect(self.channel[0])
 

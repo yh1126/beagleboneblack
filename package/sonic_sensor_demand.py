@@ -26,10 +26,13 @@ class SonicSensorDemand(DemandGpioSensor):
     def start_method(self, earg=None):
         self.loop_flag = 0
         self.pulse_start = time.time()
+        print(self.pulse_start)
 
     def sensor_method(self, earg=None):
         self.loop_flag = 0
         self.pulse_end = time.time()
+        print(self.pulse_start)
+        print(self.pulse_end)
         self.pulse_duration = self.pulse_end - self.pulse_start
         self.distance = self.pulse_duration * 17150
         self.distance = round(self.distance, 2)
@@ -46,3 +49,6 @@ class SonicSensorDemand(DemandGpioSensor):
 
     def user_method2(self, earg=None):
         print('hello, world')
+
+t = SonicSensorDemand()
+t.main()

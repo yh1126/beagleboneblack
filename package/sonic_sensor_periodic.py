@@ -18,7 +18,6 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
 
     def main(self):
         self.periodic_read(self.user_methods)
-        pass
 
     def sensor_method(self):
         print("Distance Measurement in Progress")
@@ -35,19 +34,16 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
             self.pulse_end = time.time()
 
         self.pulse_duration = self.pulse_end - self.pulse_start
-
         self.distance = self.pulse_duration * 17150
         self.distance = round(self.distance, 2)
         print("Distance: ", self.distance, "cm")
         if(self.distance < 20):
             self.sensor_value = 20
-            
+        else:
+            self.sensor_value = None
 
     def user_method1(self, earg=None):
         print('call user method')
 
     def user_method2(self, earg=None):
         print('hello, world')
-
-t = SonicSensorPeriodic()
-t.main()

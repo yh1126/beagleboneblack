@@ -26,7 +26,3 @@ class MotionSensorEvent(EventGpioSensor):
 
     def user_method2(self):
         print('hello, world')
-
-GPIO.cleanup()
-m = MotionSensorEvent()
-m.main()
