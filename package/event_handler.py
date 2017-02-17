@@ -33,7 +33,7 @@ class EventHandler(object):
             for method in self.events[event]:
                 method(self.earg)
         else:
-            pass
+            print('handler not found')
         # keyがないときのエラーをちゃんと書く
 
     __call__ = call_event_handler

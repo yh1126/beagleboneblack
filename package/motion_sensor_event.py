@@ -8,7 +8,7 @@ from event_gpio_sensor import EventGpioSensor
 
 class MotionSensorEvent(EventGpioSensor):
     def __init__(self):
-        super().__init__(18, 'BCM')
+        super().__init__(17, 'BCM')
         self.user_method = [self.user_method1, self.user_method2]
 
     def main(self):
@@ -21,8 +21,12 @@ class MotionSensorEvent(EventGpioSensor):
             except:
                 super().exception_method()
 
-    def user_method1(self):
+    def user_method1(self, channel):
         print('call user method')
 
-    def user_method2(self):
+    def user_method2(self, channel):
+        print(channel)
         print('hello, world')
+
+t = MotionSensorEvent()
+t.main()

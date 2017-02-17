@@ -16,6 +16,8 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
     """This class is for the periodically driven sensors"""
 
     def __init__(self, channel, interval=0.5, loop_flag=1, pin_mode='BCM'):
+        print(channel)
+        print(interval, 'interval')
         super().__init__(channel, pin_mode)
         self.event_handler = EventHandler()
         self.sensor_value = None
@@ -35,11 +37,9 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
             print('Please give a False(0) or True(1).')
 
     def sensor_method(self, *methods):
-        print(methods)
         while self.loop_flag:
             try:
                 print(1)
-                print(self.event_handler.events)
                 for method in methods:
                     method()
                     # methodないでself.sensor_valueに値が入れられれば
@@ -47,16 +47,22 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
 
                 if self.sensor_value is not None:
                     self.event_handler(self.sensor_value)
+                    self.sensor_value = None
 
                 time.sleep(self.loop_interval)
             except:
                 self.exception_method()
 
-    def periodic_read(self, methods):
+    def periodic_read(self, *methods):
         # this method is for the sensor to periodically read value.
         # make a thread.
         print('make a sensor thred')
-        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods,))
+        if isinstance(methods[0], list):
+            self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods[0]))
+        elif len(methods) == 1:
+            self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods[0],))
+        else:
+            self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods))
         self.sensor_thread.start()
 
     def set_interval(self, interval):

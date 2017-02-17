@@ -7,7 +7,7 @@ import time
 
 class MotionSensorPeriodic(object):
     def __init__(self):
-      self.channel = 18
+      self.channel = 17
 
     def detect(self, sender, earg):
         GPIO.setmode(GPIO.BCM)
@@ -17,10 +17,11 @@ class MotionSensorPeriodic(object):
             try:
                 print('検知中')
                 if GPIO.input(self.channel):
+                    print('検知しました')
                     self.user_method2()
 
                 self.user_method1()
-                time.sleep(0.1)
+                time.sleep(1)
             except:
                 self.exception_method()
 
@@ -32,3 +33,6 @@ class MotionSensorPeriodic(object):
 
     def exception_method(self):
         GPIO.cleanup(self.channel)
+
+t = MotionSensorPeriodic()
+t.detect(1,2)
