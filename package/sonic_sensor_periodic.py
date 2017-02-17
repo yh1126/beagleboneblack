@@ -18,7 +18,6 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
 
     def main(self):
         self.periodic_read(self.user_methods)
-        pass
 
     def sensor_method(self):
         print("Distance Measurement in Progress")

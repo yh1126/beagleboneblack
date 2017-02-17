@@ -4,6 +4,7 @@
 from abc import ABCMeta
 import time
 import types
+import threading
 import RPi.GPIO as GPIO
 from gpio_sensor_conf import GpioSensorConf
 from periodic_io import PeriodicIo
@@ -35,6 +36,10 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
 
     def periodic_read(self, methods):
         # this method is for the sensor to periodically read value.
+        # make a thread.
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods))
+
+    def sensor_method(self, methods):
         while self.loop_flag:
             try:
                 print(1)

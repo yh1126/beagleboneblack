@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+import threading
 import time
 import smbus
 from smbus_sensor_conf import SmbusSensorConf
@@ -18,11 +19,12 @@ class EventSmbusSensor(SmbusSensorConf, EventDrivenIo, SensorException):
         self.event_handlers = EventHandler()
 
     def add_event_handler(self, event, handler):
-        # This method is for add event handler.
         # eventを指定して、そのイベントにメソッドを追加する
         self.event_handlers.add(event, handler)
 
-    def run(self, sensor_method):
+    def run(self):
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args())
+    def sensor_method(self, user_method):
         # センシングメソッドを与える, 与えたメソッドを呼ぶ得られた値がイベントとしてあるか調べる
         while True:
             # ポーリングで特定のレジスタを読んでくる
@@ -63,7 +65,7 @@ class EventSmbusSensor(SmbusSensorConf, EventDrivenIo, SensorException):
     def remove_event_handler(self, event):
         self.event_handlers.remove()
 
-    def sensor_method(self):
+    def user_method(self):
         # 値を取得するセンシングメソッドを記述
         pass
 
