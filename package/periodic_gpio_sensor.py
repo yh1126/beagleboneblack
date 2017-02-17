@@ -34,12 +34,8 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
             print(loop_flag, 'is not suppoerted.')
             print('Please give a False(0) or True(1).')
 
-    def periodic_read(self, methods):
-        # this method is for the sensor to periodically read value.
-        # make a thread.
-        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods))
-
-    def sensor_method(self, methods):
+    def sensor_method(self, *methods):
+        print(methods)
         while self.loop_flag:
             try:
                 print(1)
@@ -52,10 +48,16 @@ class PeriodicGpioSensor(GpioSensorConf, PeriodicIo, SensorException, EventHandl
                 if self.sensor_value is not None:
                     self.event_handler(self.sensor_value)
 
-                print(2)
                 time.sleep(self.loop_interval)
             except:
                 self.exception_method()
+
+    def periodic_read(self, methods):
+        # this method is for the sensor to periodically read value.
+        # make a thread.
+        print('make a sensor thred')
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods,))
+        self.sensor_thread.start()
 
     def set_interval(self, interval):
         if isinstance(interval, int):

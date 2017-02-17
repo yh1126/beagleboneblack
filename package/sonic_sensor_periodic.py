@@ -9,7 +9,7 @@ from periodic_gpio_sensor import PeriodicGpioSensor
 class SonicSensorPeriodic(PeriodicGpioSensor):
     def __init__(self):
         super().__init__([20, 21], 2)
-        self.user_methods = [self.sensor_method, self.user_method1]
+        self.user_methods = [self.user_method, self.user_method1]
         self.event_handler.add_event_handler(20, self.user_method2)
         self.pulse_start = 0
         self.pulse_end = 0
@@ -17,9 +17,13 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
         self.distance = 0
 
     def main(self):
-        self.periodic_read(self.user_methods)
+        #super().periodic_read(self.user_methods)
+        super().periodic_read(self.user_method)
+        while True:
+            print(1)
+            time.sleep(1)
 
-    def sensor_method(self):
+    def user_method(self):
         print("Distance Measurement in Progress")
         GPIO.setup(self.channel[0], GPIO.IN)
         GPIO.setup(self.channel[1], GPIO.OUT)
@@ -47,3 +51,6 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
 
     def user_method2(self, earg=None):
         print('hello, world')
+
+s = SonicSensorPeriodic()
+s.main()
