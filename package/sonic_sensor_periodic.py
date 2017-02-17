@@ -18,7 +18,8 @@ class SonicSensorPeriodic(PeriodicGpioSensor):
 
     def main(self):
         #super().periodic_read(self.user_methods)
-        super().periodic_read(self.user_method)
+        #super().periodic_read(self.user_method)
+        super().periodic_read(self.user_method, self.user_method2)
         while True:
             print(1)
             time.sleep(1)
