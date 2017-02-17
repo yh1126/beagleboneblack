@@ -29,9 +29,13 @@ class PeriodicSmbusSensor(SpiSensorConf, PeriodicIo, Sensorexception):
 
         super().__init__(self, device, bus)
 
-    def periodic_read(self, *methods):
+    def periodic_read(self, methods):
         # methods is tuple
         # this method is for the sensor to periodically read value.
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods))
+
+    def sensor_method(self, methods):
+        # 型判定あとで実装
         for method in methods:
             if isinstance(method, types.FunctionType):
                 pass

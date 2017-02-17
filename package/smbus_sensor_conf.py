@@ -29,5 +29,3 @@ class SmbusSensorConf(metaclass=ABCMeta):
 
     def __del__(self):
         print('del')
-
-t = SmbusSensorConf(12)

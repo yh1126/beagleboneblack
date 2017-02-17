@@ -6,6 +6,9 @@ from event_gpio_sensor import EventGpioSensor
 
 
 class EventGpioTemplate(EventGpioSensor):
+    """このクラスはGPIOイベント駆動センサのテンプレートです
+    次の変数がある箇所にそれぞれ情報を定義してください
+    pin_number, user_method1, 2"""
     def __init__(self):
         super().__init__(pin_number)
         self.user_methodd = [user_method1, user_method2]
@@ -19,7 +22,7 @@ class EventGpioTemplate(EventGpioSensor):
             try:
                 # describe your code.
                 pass
-            else:
+            except:
                 super().exception_method()
 
     def user_method1(self):

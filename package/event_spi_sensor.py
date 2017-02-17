@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import time
+import threading
 import spidev
 from spi_sensor_conf import SpiSensorConf
 from event_driven_io import EventDrivenIo
@@ -21,7 +22,9 @@ class EventSpiSensor(SpiSensorConf, EventDrivenIo, SensorException):
         # eventを指定して、そのイベントにメソッドを追加する
         self.event_handlers.add(event, handler)
 
-    def run(self, sensor_method):
+    def run(self):
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args())
+    def sensor_thread(self, user_method):
         while True:
             # ポーリングで特定のレジスタを読んでくる
             # センサーで読み取ってくる値 = イベントの値
@@ -47,7 +50,7 @@ class EventSpiSensor(SpiSensorConf, EventDrivenIo, SensorException):
     def remove_event_handler(self, event):
         self.event_handlers.remove()
 
-    def sensor_method(self):
+    def user_method(self):
         # 値を取得するセンシングメソッドを記述
         pass
 

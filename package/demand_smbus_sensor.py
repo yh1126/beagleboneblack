@@ -19,9 +19,9 @@ class DemandSmbusSensor(SmbusSensorConf, DemandDrivenIo, SensorException):
         self.event_handlers = EventHandler()
 
     def demand_issue(self, demand, **catch_event)
-        self.sensor_data = [] # 読み取ってとってくる値を取得
-        if isinstance(demand, Demand):
-            demand = Demand()
+        self.sensor_data = [] # 読み取ってとってくる値を格納する箱
+        if isinstance(demand, Demand()):
+            self.demand = demand
         else:
             print('Please give a Demand object.')
             return False
@@ -52,8 +52,8 @@ class DemandSmbusSensor(SmbusSensorConf, DemandDrivenIo, SensorException):
 
             time.sleep(demand.interval)
 
-            self.sensor_value = read()
-            for self.sensor_value in demand.read_methods():
+            for read in demand.read_methods():
+                self.sensor_value = read()
                 self.sensor_data.append(self.sensor_value)
 
         self.event_handlers.remove()

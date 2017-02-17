@@ -9,7 +9,7 @@ from periodic_gpio_sensor import PeriodicGpioSensor
 class PeriodicGpioTemplate(PeriodicGpioSensor):
     def __init__(self):
         super().__init__(pin_number, loop_interval)
-        self.user_method = [self.ensor_method, self.test_method]
+        self.user_method = [self.sensor_method, self.test_method]
         self.handler = [self.handler1, self.handler2]
         self.key
 

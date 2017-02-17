@@ -30,8 +30,12 @@ class PeriodicSmbusSensor(SmbusSensorConf, PeriodicIo, Sensorexception):
 
         super().__init__(self, address, bus)
 
-    def periodic_read(self, *methods):
+    def periodic_read(self, methods):
         # this method is for the sensor to periodically read value.
+        # make a thread.
+        self.sensor_thread = threading.Thread(target=self.sensor_method, args=(methods))
+
+    def sensor_method(self, methods):
         for method in methods:
             if isinstance(method, types.FunctionType):
                 pass
