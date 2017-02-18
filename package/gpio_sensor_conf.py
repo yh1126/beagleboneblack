@@ -11,7 +11,7 @@ class GpioSensorConf(metaclass=ABCMeta):
     def __init__(self, channel=None, mode='BCM'):
 
         assert channel is not None, 'Please select channel.'
-        # Noneのようなシングルトンと比較する時は等価演算子は使っちゃだめ
+        # Noneのようなものと比較する時は等価演算子は使っちゃだめ
 
         if mode.upper() == 'BCM':
             print('select BCM mode.')

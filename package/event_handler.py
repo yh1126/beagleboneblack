@@ -13,7 +13,6 @@ class EventHandler(object):
         #イベント(key)とメソッドの追加
         self.handlers = []
 
-        #すでにあるイベントにメソッドを追加するとき、もともとあるメソッドを取得してくる
         if event in self.events:
             for method in self.events[event]:
                 self.handlers.append(method)
@@ -34,6 +33,5 @@ class EventHandler(object):
                 method(self.earg)
         else:
             print('handler not found')
-        # keyがないときのエラーをちゃんと書く
 
     __call__ = call_event_handler
