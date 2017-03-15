@@ -1,6 +1,4 @@
-# beagleboneblack
-BeagleBoneBlack Repository
+# pisensor
+RaspberryPiで使用されるセンサー向けのPython package。
 
 
-BeagleBoneblackの練習用リポジトリです。
-現在はraspberry pi 2 で練習中です。
